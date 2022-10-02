@@ -49,12 +49,13 @@ def connectToInfluxDB():
 def convertFieldValues(data):
     for key in data:
         for field in data[key]:
-            if 'temp_' in field or '_temp' in field:
-                data[key][field] = float(data[key][field])/10
-            elif field in ['L_ambient', 'L_existing_boiler', 'hysteresys', 'offtemp', 'L_comfort', 'remote_override', 'L_tpo_act', 'L_tpo_set', 'L_tpm_act', 'L_tpm_set', 'L_pump_release', 'L_spu', 'spu_max', 'L_pwr', 'L_total', 'L_day', 'L_yesterday', 'L_lowpressure', 'L_lowpressure_set', 'L_uw_release']:
-                data[key][field] = float(data[key][field])/10
-            elif field in ['L_flow', 'L_runtimeburner', 'L_resttimeburner']:
-                data[key][field] = float(data[key][field])/100
+            if isinstance(data[key][field], dict):
+                if 'factor' in data[key][field] and 0.1 == data[key][field]['factor']:
+                    data[key][field] = float(data[key][field]['val'])/10
+                elif 'factor' in data[key][field] and 0.01 == data[key][field]['factor']:
+                    data[key][field] = float(data[key][field]['val'])/100
+                else:
+                    data[key][field] = data[key][field]['val']
 
     return data
 
@@ -80,7 +81,7 @@ def getData():
         print('If custom fields are defined, custom parts have to be defined as well!')
         quit()
 
-    url = 'http://' + ip + ':' + str(port) + '/' + password + '/all'
+    url = 'http://' + ip + ':' + str(port) + '/' + password + '/all?'
     oekofenData = json.loads(urllib.request.urlopen(url).read().decode('cp1252'))
     oekofenDataParts = dict()
 
