@@ -114,7 +114,7 @@ I use this script to monitor my pellet stove once a minute via `task scheduler` 
 - Grafana panels & dashboards
 
 ## Pellematic Condens
-The data is provided via a JSON API which you can call via `http://<IP>>/<JSON_PASSWORD>/all`. The following parts & fields are provided by a device (field `L_type` [6] in part `pe1`) with the following version: Touch V4.00b.
+The data is provided via a JSON API which you can call via `http://<IP>>/<JSON_PASSWORD>/all?`. The following parts & fields are provided by a device (field `L_type` [6:CONDENS] in part `pe1`) with the following version: Touch V4.00b.
 
 Following a list of all parts & fields of my device (alphabetically ordered, explanations of fields still to come):
 - hk1
@@ -243,5 +243,6 @@ Due to the fact that the setup is different on each building, there might be ins
 If anyone has a tip for me on where to find official data on what each field means, feel free to contact me!
 
 ## Inspiration/Thanks
-In Septmeber 2022 I searched the web for a possibility to get the data for my ÖkoFEN Pellematic Condens and persist it. The reason was and still is the optimzation of the stove, the pellet consumption and energy consumption in general.
-I finally found [Oekofen-spy](https://gitlab.com/p3605/oekofen-spy) on GitLab which introduced me into Python and InfluxDB and that let me to this project. I already had some touch points with Grafana though.
+In September 2022 I searched the web for a possibility to get the data for my ÖkoFEN Pellematic Condens and persist it. The reason was and still is the optimzation of the stove, the pellet consumption and energy consumption in general - as it's getting more expensive.
+
+I finally found [Oekofen-spy](https://gitlab.com/p3605/oekofen-spy) on GitLab which introduced me into Python and InfluxDB and that let me to this project. I tried to adapt this to my needs, make it somehow more configurable and less error prone for future API updates from ÖkoFEN - mainly regarding the conversion of the values to float within `convertFieldValues()`.
