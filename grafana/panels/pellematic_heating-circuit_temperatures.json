@@ -1,0 +1,148 @@
+{
+    "id": 80,
+    "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 0,
+        "y": 15
+    },
+    "type": "bargauge",
+    "title": "Temperatures",
+    "datasource": {
+        "uid": "xVrj3374k",
+        "type": "influxdb"
+    },
+    "pluginVersion": "9.1.6",
+    "fieldConfig": {
+        "defaults": {
+            "mappings": [],
+            "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                    {
+                        "color": "orange",
+                        "value": null
+                    }
+                ]
+            },
+            "color": {
+                "mode": "thresholds"
+            },
+            "decimals": 1,
+            "unit": "celsius"
+        },
+        "overrides": [
+            {
+                "matcher": {
+                    "id": "byName",
+                    "options": "pellematic.HK1TempAct"
+                },
+                "properties": [
+                    {
+                        "id": "displayName",
+                        "value": "Actual"
+                    }
+                ]
+            },
+            {
+                "matcher": {
+                    "id": "byName",
+                    "options": "pellematic.HK1TempSet"
+                },
+                "properties": [
+                    {
+                        "id": "displayName",
+                        "value": "Target"
+                    }
+                ]
+            }
+        ]
+    },
+    "options": {
+        "reduceOptions": {
+            "values": false,
+            "calcs": [
+                "lastNotNull"
+            ],
+            "fields": ""
+        },
+        "orientation": "horizontal",
+        "displayMode": "basic",
+        "showUnfilled": false,
+        "minVizWidth": 0,
+        "minVizHeight": 10
+    },
+    "targets": [
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "xVrj3374k"
+            },
+            "groupBy": [
+                {
+                    "params": [
+                        "$__interval"
+                    ],
+                    "type": "time"
+                },
+                {
+                    "params": [
+                        "null"
+                    ],
+                    "type": "fill"
+                }
+            ],
+            "measurement": "pellematic",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+                [
+                    {
+                        "params": [
+                            "L_flowtemp_act"
+                        ],
+                        "type": "field"
+                    },
+                    {
+                        "params": [],
+                        "type": "last"
+                    },
+                    {
+                        "params": [
+                            "HK1TempAct"
+                        ],
+                        "type": "alias"
+                    }
+                ],
+                [
+                    {
+                        "params": [
+                            "L_flowtemp_set"
+                        ],
+                        "type": "field"
+                    },
+                    {
+                        "params": [],
+                        "type": "last"
+                    },
+                    {
+                        "params": [
+                            "HK1TempSet"
+                        ],
+                        "type": "alias"
+                    }
+                ]
+            ],
+            "tags": [
+                {
+                    "key": "part",
+                    "operator": "=",
+                    "value": "hk1"
+                }
+            ]
+        }
+    ],
+    "transparent": true
+}

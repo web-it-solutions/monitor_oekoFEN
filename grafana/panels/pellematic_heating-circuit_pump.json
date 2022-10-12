@@ -1,0 +1,118 @@
+{
+    "id": 79,
+    "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 3,
+        "y": 15
+    },
+    "type": "stat",
+    "title": "Pump",
+    "datasource": {
+        "uid": "xVrj3374k",
+        "type": "influxdb"
+    },
+    "pluginVersion": "9.1.6",
+    "fieldConfig": {
+        "defaults": {
+            "mappings": [
+                {
+                    "options": {
+                        "0": {
+                            "color": "red",
+                            "index": 0,
+                            "text": "Off"
+                        },
+                        "1": {
+                            "color": "green",
+                            "index": 1,
+                            "text": "On"
+                        }
+                    },
+                    "type": "value"
+                }
+            ],
+            "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                    {
+                        "color": "green",
+                        "value": null
+                    }
+                ]
+            },
+            "color": {
+                "fixedColor": "text",
+                "mode": "fixed"
+            },
+            "unit": "percent"
+        },
+        "overrides": []
+    },
+    "options": {
+        "reduceOptions": {
+            "values": false,
+            "calcs": [
+                "lastNotNull"
+            ],
+            "fields": "/^HK1Pump$/"
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "text": {}
+    },
+    "targets": [
+        {
+            "alias": "HK1Pump",
+            "datasource": {
+                "type": "influxdb",
+                "uid": "xVrj3374k"
+            },
+            "groupBy": [
+                {
+                    "params": [
+                        "$__interval"
+                    ],
+                    "type": "time"
+                },
+                {
+                    "params": [
+                        "null"
+                    ],
+                    "type": "fill"
+                }
+            ],
+            "measurement": "pellematic",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+                [
+                    {
+                        "params": [
+                            "L_pump"
+                        ],
+                        "type": "field"
+                    },
+                    {
+                        "params": [],
+                        "type": "last"
+                    }
+                ]
+            ],
+            "tags": [
+                {
+                    "key": "part",
+                    "operator": "=",
+                    "value": "hk1"
+                }
+            ]
+        }
+    ],
+    "transparent": true,
+    "description": ""
+}

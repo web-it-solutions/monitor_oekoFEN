@@ -113,19 +113,33 @@ I use this script to monitor my pellet stove once a minute via `task scheduler` 
 ### Roadmap/Still to come
 - Grafana panels & dashboards
 
+## Grafana
+### Heating circuit panels
+First section of panels is related to the heating circuit (`hk1` - can also be adopted to `hk2` which does not exist in my setup). They display the actual (`L_flowtemp_act`) and target (`L_flowtemp_set`) temperatures ([json](grafana/panels/pellematic_heating-circuit_temperatures.json)) of the heating circuit as well as the state of the pump (`L_state`) ([json](grafana/panels/pellematic_heating-circuit_pump.json)).
+
+![Temperatures](grafana/screenshots/pellematic_heating-circuit_temperatures.png "Temperatures")
+![Pump-on](grafana/screenshots/pellematic_heating-circuit_pump-on.png "Pump: on")
+![Temperature](grafana/screenshots/pellematic_heating-circuit_temperature.png "Temperature")
+
+There is a `time series` graph ([json](grafana/panels/pellematic_heating-circuit.json)) as well, showing the above temperatures in relation to the outside temperature (`L_ambient` from the `system` part).
+
+![Heating-circuit](grafana/screenshots/pellematic_heating-circuit.png "Heating circuit")
+
+All panels can be found within `grafana/panels`. Feel free to import into your dashboards and adjust to your needs.
+
 ## Pellematic Condens
 The data is provided via a JSON API which you can call via `http://<IP>>/<JSON_PASSWORD>/all?`. The following parts & fields are provided by a device (field `L_type` [6:CONDENS] in part `pe1`) with the following version: Touch V4.00b.
 
 Following a list of all parts & fields of my device (alphabetically ordered, explanations of fields still to come):
 - hk1
   - L_comfort
-  - L_flowtemp_act
-  - L_flowtemp_set
-  - L_pump
+  - L_flowtemp_act (`float`: actual temperature)
+  - L_flowtemp_set (`float`: target temperature)
+  - L_pump (`integer`: Off[0]|On[1])
   - L_roomtemp_act
   - L_roomtemp_set
   - L_state
-  - L_statetext
+  - L_statetext (`string`: text of state, e.g. in german 'Heizbetrieb aktiv')
   - autocomfort
   - autocomfort_sunrise
   - autocomfort_sunset
@@ -203,6 +217,11 @@ Following a list of all parts & fields of my device (alphabetically ordered, exp
   - mode
   - name
   - spu_max
+- system
+  - L_ambient (`float`: outside temperature)
+  - L_errors
+  - L_usb_stick
+  - L_existing_boiler
 - weather
   - L_clouds
   - L_endtime
